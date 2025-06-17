@@ -1,6 +1,8 @@
 "use client";
-import { type Film } from "@/server/db/schemata";
 import { useEffect, useState } from "react";
+import { type Film } from "@/server/db/schemata";
+import { FaImdb, FaSquareLetterboxd } from "react-icons/fa6";
+import Link from "next/link";
 
 export default function HomePage() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -40,20 +42,35 @@ export default function HomePage() {
       }
     }
 
-    scrapeFilmography();
+    // scrapeFilmography();
     fetchFilmography();
   }, []);
 
   return (
     <main id="homepage" style={{ padding: 20, fontFamily: "system-ui" }}>
-      <h1>Filmography</h1>
       {loading && <p>Loading films... 🎬</p>}
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
       {!loading && !error && (
-        <ul>
+        <ul className="flex flex-col gap-3">
           {filmography.map((film) => (
-            <li key={film.id}>
-              {film.title} ({film.year})
+            <li className="flex gap-2 items-center" key={film.id}>
+              <p>
+                {film.title} ({film.year})
+              </p>
+              <Link
+                href={film.imdb}
+                target="_blank"
+                className="aspect-square w-10"
+              >
+                <FaImdb className="size-full" />
+              </Link>
+              <Link
+                href={`https://letterboxd.com/film/${film.letterboxd}`}
+                target="_blank"
+                className="aspect-square w-10"
+              >
+                <FaSquareLetterboxd className="size-full" />
+              </Link>
             </li>
           ))}
         </ul>
