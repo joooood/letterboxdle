@@ -9,6 +9,11 @@ const compat = new FlatCompat({
 
 export default tseslint.config(
   {
+    languageOptions: {
+      parserOptions: {
+        ecmaVersion: 2022,
+      },
+    },
     ignores: [".next"],
   },
   ...compat.extends("next/core-web-vitals"),

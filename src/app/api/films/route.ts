@@ -1,4 +1,4 @@
-import { kubrick, type RawFootage } from "@/server/scraper";
+import { kubrick } from "@/server/scraper";
 import { db } from "@/server/db";
 import { create_film, films } from "@/server/db/schemata";
 import { sql } from "drizzle-orm";
@@ -25,14 +25,9 @@ export async function POST() {
       .filter((film) => film.title && film.year && film.imdb)
       .map((film) => create_film(film));
 
-    console.log(`Criterion count: ${criterion_collection.length}`);
-    console.log(criterion_collection[0]);
-    console.log(criterion_collection[1]);
-
     const uniqueFilms = Array.from(
       new Map(criterion_collection.map((film) => [film.slug, film])).values(),
     );
-    console.log(`Unique films: ${uniqueFilms.length}`);
 
     await db
       .insert(films)

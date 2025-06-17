@@ -41,7 +41,7 @@ export const create_film = (data: {
     title: data.title,
     title_normal: normalise_title(data.title),
     year: data.year,
-    slug: generate_slug(data.title, data.year),
+    slug: generate_slug(data.title, data.imdb),
     imdb: data.imdb,
     letterboxd: data.letterboxd ?? null,
     createdAt: new Date(),

@@ -1,13 +1,14 @@
 import puppeteer, { Page, Browser } from "puppeteer";
 import ora from "ora";
 import { auto_scroll } from "@/server/scraper/helpers/auto_scroll";
+import type { Film } from "../db/schemata";
 
-export type RawFootage = {
+export interface RawFootage {
   title: string;
   year: number;
   imdb: string;
   letterboxd: string | undefined;
-};
+}
 
 let browser: Browser;
 let page: Page | undefined;
@@ -16,9 +17,9 @@ export async function kubrick(username: string) {
   const url = `https://www.letterboxd.com/${username}/films`;
   await lights();
   await camera(url);
-  const films = await action(url);
-  console.log(`Kubricl length: ${films.length}`);
-  return films;
+  const footage = await action(url);
+  // const films = postprocessing(footage);
+  return footage;
 }
 
 export async function lights() {
@@ -156,3 +157,21 @@ export async function action(url: string): Promise<RawFootage[]> {
   }
   return films;
 }
+
+// export async function postprocessing(footage: RawFootage[]): Promise<Film[]> {
+ 
+//   const _postprocessing = ora(`✂️ FIXING IT IN POST`).start();
+//   const films: Film[] = []
+
+//   for (const raw of footage) {
+//     if(!raw.imdb) continue;
+//     const imdb = raw.imdb.match(/tt\d{6,9}/)?.[0];
+//     const slug = imdb?.replace("tt", "i");
+//     if(!slug) continue;
+
+//     const stills = `https://www.moviestillsdb.com/movies/${slug}`;
+    
+    
+//   }
+
+// }
